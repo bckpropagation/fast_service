@@ -54,7 +54,7 @@ function create_python_dockerfile
 
 function create_docker_compose
 {
-	echo "version: \"3.7\"" >> docker-compose.yml
+	echo "version: \"3.7\"" > docker-compose.yml
 	echo "services: " >> docker-compose.yml
 	echo "  web:" >> docker-compose.yml
 	echo "    build: " >> docker-compose.yml
