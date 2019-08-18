@@ -11,7 +11,7 @@ function create_docker_database
 	echo "ENV DBHOST=localhost" > Dockerfile-database
 	echo "ENV POSTGRES_USER=$1" >> Dockerfile-database
 	echo "ENV POSTGRES_PASSWORD=$2" >> Dockerfile-database
-	echo "ENV POSTGRES_DB=$3" >> database.env
+	echo "ENV POSTGRES_DB=$3" >> Dockerfile-database
 
 	create_test_db $postgres_user
 	echo "ADD init.sql /docker-entrypoint-initdb.d/" >> Dockerfile-database
