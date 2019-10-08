@@ -14,6 +14,12 @@
 	$ export DATABASE_URL="postgresql://[db_host]:[db_port]/db_name"
 	```
 
+- Migrate database.
+	```
+	$ python manage.py db migrate
+	$ python manage.py db upgrade
+	```
+
 - Run tests.
 	```
 	$ python manage.py test
