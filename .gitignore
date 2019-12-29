@@ -1,8 +1,8 @@
 .vscode/*
 .venv/*
 __pycache__/
+app/main/flask_boilerplate_*.db
 .env
 init.sql
 docker-compose.yml
 Dockerfile*
-
