@@ -1,10 +1,16 @@
 language: python
+python:
+  - 3.6
+  - 3.7
+  - 3.8
 dist: trusty
-install:
-  - pip install -r requirements.txt
 env:
   global:
     - APP_SETTINGS="test"
     - FLASK_ENV=$APP_SETTINGS
+install:
+  - pip install -r requirements.txt
 script:
-  - python manage.py test
+  - coverage erase
+  - coverage run manage.py test
+  - coverage report -m 
