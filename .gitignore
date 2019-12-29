@@ -5,4 +5,4 @@ __pycache__/
 init.sql
 docker-compose.yml
 Dockerfile*
-
+*.db
