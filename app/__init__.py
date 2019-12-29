@@ -1,40 +1,20 @@
-from flask import Flask
-from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
-
-from instance.config import app_config
-
-db = SQLAlchemy()
-api = Api(catch_all_404s=True)
+from flask_restplus import Api
+from flask import Blueprint
 
 
-def create_app(config_name):
-	app = Flask(__name__, instance_relative_config=True)
+from .main.controller.restaurants_controller import api as restaurants_ns
+from .main.controller.menu_controller import api as menu_ns
 
-	app.config.from_object(app_config[config_name])
-	app.config.from_pyfile('config.py')
 
-	# Inits
-	db.init_app(app)
-	api.init_app(app)
+__version__ = "v1"
+blueprint = Blueprint("api", __name__)
+api = Api(
+	blueprint,
+	version="1.0",
+	title="Fast service restaurants api",
+	description="Fast service web API"
+)
 
-	return app
 
-############
-## Routes ##
-############
-from resources.reviews import Reviews
-from resources.dishes import Dishes
-
-api.add_resource(Dishes, '/dishes',
-                         '/dishes/',
-                         '/dishes/<string:dish_type>',
-                         '/dishes/<string:dish_type>/',
-                         '/dishes/<int:dish_id>',
-                         '/dishes/<int:dish_id>/',
-                         endpoint='dishes')
-
-api.add_resource(Reviews, '/dishes/<int:dish_id>/reviews',
-                          '/dishes/<int:dish_id>/reviews/',
-						  endpoint='reviews')
-
+api.add_namespace(restaurants_ns, path=f"/api/{__version__}")
+api.add_namespace(menu_ns, path=f"/api/{__version__}/restaurants")
