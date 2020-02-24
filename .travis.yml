@@ -5,7 +5,12 @@ dist: trusty
 env:
   global:
     - APP_SETTINGS="test"
-    - FLASK_ENV=$APP_SETTINGS
+    - FLASK_APP="app:create_app('${APP_SETTINGS}')"
+    - FLASK_ENV="testing"
+install:
+  - pip install -r requirements.txt
+  - python manage.py db upgrade
+  - FLASK_ENV=$APP_SETTINGS
 install:
   - pip install -r requirements.txt
 script:
