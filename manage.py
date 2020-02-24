@@ -4,11 +4,16 @@ import unittest
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
-from app import create_app, db
-from models import dish, review
+from app import create_app
+from app.main import db
 
-app = create_app(config_name=os.getenv('APP_SETTINGS'))
-app.app_context().push()
+# Models
+from app.main.model import restaurant
+from app.main.model import menu
+from app.main.model import user
+
+
+app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -17,12 +22,15 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def run():
-    app.run()
+    app.run(
+        host="0.0.0.0",
+        port=5000
+    )
 
 @manager.command
 def test():
     """ Run unit tests """
-    tests = unittest.TestLoader().discover('./tests', pattern='test_*.py')
+    tests = unittest.TestLoader().discover('app/test', pattern='test_*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
 
     if result.wasSuccessful():

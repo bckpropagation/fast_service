@@ -8,8 +8,7 @@
 	```
 - Set environment variables that Flask will use to create a connection to the DB and set the appropiate execution for a production or development environment.
 	```
-	$ export FLASK_APP="run.py"
-    $ export APP_SETTINGS="[development or production]"
+    $ export APP_SETTINGS="[dev, test or prod]"
 	$ export FLASK_ENV=$APP_SETTINGS
 	$ export DATABASE_URL="postgresql://[db_host]:[db_port]/db_name"
 	```
@@ -27,5 +26,5 @@
 
 - Run server.
 	```
-	$ python manage.py runserver
+	$ python manage.py run
 	```

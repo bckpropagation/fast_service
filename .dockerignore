@@ -1,3 +1,10 @@
-create_dockerfile.sh
-Dockerfile
+.git
+.vscode
+.venv
+.coverage
+.travis.yml
+.gitignore
 .env
+Dockerfile
+__pycache__/*
+app/main/*.db

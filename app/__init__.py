@@ -1,40 +1,39 @@
-from flask import Flask
-from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
+import os
+from flask_restplus import Api
+from flask import Blueprint
 
-from instance.config import app_config
+from .main import init
+from .main.controller.restaurants_controller import api as restaurants_ns
+from .main.controller.menu_controller import api as menu_ns
+from .main.controller.user_controller import api as user_ns
+from .main.controller.auth_controller import api as auth_ns
 
-db = SQLAlchemy()
-api = Api(catch_all_404s=True)
 
+__version__ = "v1"
+url_prefix = f"/api/{__version__}"
+blueprint = Blueprint(
+	"restaurants_api",
+	__name__
+)
+api = Api(
+	blueprint,
+	version="1.0",
+	title="Fast service API",
+	doc="/api/doc",
+	catch_all_404s=True,
+	description="Fast service API<style>.models {display: none !important}</style>",
+)
+
+
+api.add_namespace(restaurants_ns, path=f"{url_prefix}/restaurants")
+api.add_namespace(menu_ns, path=f"{url_prefix}/restaurants")
+api.add_namespace(auth_ns, path=f"{url_prefix}/auth")
+api.add_namespace(user_ns, path=f"{url_prefix}/user")
 
 def create_app(config_name):
-	app = Flask(__name__, instance_relative_config=True)
+	app = init(config_name)
 
-	app.config.from_object(app_config[config_name])
-	app.config.from_pyfile('config.py')
-
-	# Inits
-	db.init_app(app)
-	api.init_app(app)
-
+	with app.app_context():
+		app.register_blueprint(blueprint)
+	
 	return app
-
-############
-## Routes ##
-############
-from resources.reviews import Reviews
-from resources.dishes import Dishes
-
-api.add_resource(Dishes, '/dishes',
-                         '/dishes/',
-                         '/dishes/<string:dish_type>',
-                         '/dishes/<string:dish_type>/',
-                         '/dishes/<int:dish_id>',
-                         '/dishes/<int:dish_id>/',
-                         endpoint='dishes')
-
-api.add_resource(Reviews, '/dishes/<int:dish_id>/reviews',
-                          '/dishes/<int:dish_id>/reviews/',
-						  endpoint='reviews')
-

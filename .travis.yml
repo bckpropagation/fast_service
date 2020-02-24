@@ -1,18 +1,14 @@
 language: python
+python:
+  - 3.8
 dist: trusty
-install:
-  - pip install -r requirements.txt
-services:
-  - postgresql
 env:
   global:
-    - PGPORT=5433
-    - FLASK_APP="run.py"
-    - APP_SETTINGS="development"
+    - APP_SETTINGS="test"
     - FLASK_ENV=$APP_SETTINGS
-    - PGPORT=5433
-    - DATABASE_URL="postgresql://localhost:5433/travis_ci_test"
-before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+install:
+  - pip install -r requirements.txt
 script:
-  - python manage.py test
+  - coverage erase
+  - coverage run manage.py test
+  - coverage report -m 
