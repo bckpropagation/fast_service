@@ -1,0 +1,10 @@
+.git
+.vscode
+.venv
+.coverage
+.travis.yml
+.gitignore
+.env
+Dockerfile
+__pycache__/*
+app/main/*.db

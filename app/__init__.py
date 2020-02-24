@@ -1,7 +1,8 @@
+import os
 from flask_restplus import Api
 from flask import Blueprint
 
-
+from .main import init
 from .main.controller.restaurants_controller import api as restaurants_ns
 from .main.controller.menu_controller import api as menu_ns
 from .main.controller.user_controller import api as user_ns
@@ -28,3 +29,11 @@ api.add_namespace(restaurants_ns, path=f"{url_prefix}/restaurants")
 api.add_namespace(menu_ns, path=f"{url_prefix}/restaurants")
 api.add_namespace(auth_ns, path=f"{url_prefix}/auth")
 api.add_namespace(user_ns, path=f"{url_prefix}/user")
+
+def create_app(config_name):
+	app = init(config_name)
+
+	with app.app_context():
+		app.register_blueprint(blueprint)
+	
+	return app

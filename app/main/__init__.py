@@ -11,7 +11,7 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 
 
-def create_app(config_name):
+def init(config_name):
     app = Flask(__name__)
 
     app.config.from_object(config_by_name[config_name])
@@ -19,9 +19,4 @@ def create_app(config_name):
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-    with app.app_context():
-        from .. import blueprint 
-
-        app.register_blueprint(blueprint)
-
-        return app
+    return app
